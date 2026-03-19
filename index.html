@@ -1,1 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sandeep S | Portfolio</title>
 
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Helvetica", "Segoe UI", sans-serif;
+    }
+
+    body {
+        background: #0f172a; /* slightly dark blue-gray */
+        color: #e5e7eb;
+        line-height: 1.7;
+    }
+
+    /* Animated Background */
+    #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        opacity: 0.12; /* visible but subtle */
+    }
+
+    /* Overlay to control darkness without killing animation */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.65);
+        z-index: -1;
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(8px);
+        padding: 15px 8%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header h1 {
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    nav a {
+        margin-left: 25px;
+        text-decoration: none;
+        color: #cbd5f5;
+        font-size: 14px;
+    }
+
+    nav a:hover {
+        color: #60a5fa;
+    }
+
+    section {
+        padding: 60px 8%;
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .hero {
+        padding-top: 100px;
+    }
+
+    .hero h2 {
+        font-size: 34px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .hero p {
+        color: #9ca3af;
+        font-size: 18px;
+    }
+
+    h3 {
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+    p {
+        margin-bottom: 8px;
+    }
+
+    ul {
+        margin-left: 20px;
+    }
+
+    li {
+        margin-bottom: 6px;
+    }
+
+    .links a {
+        display: block;
+        margin-bottom: 6px;
+        color: #60a5fa;
+        text-decoration: none;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 0;
+        font-size: 13px;
+        color: #9ca3af;
+    }
+
+</style>
+</head>
+
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div class="overlay"></div>
+
+<header>
+    <h1>SANDEEP S</h1>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#links">Links</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Electronics & Communication Engineer</h2>
+    <p>Embedded Systems Enthusiast</p>
+</section>
+
+<section id="about">
+    <h3>Profile</h3>
+    <p>
+        Dedicated and innovative Embedded Systems enthusiast with a solid grasp of firmware development, 
+        hardware integration, and real-time applications. Known for adaptability, precision, and a proactive 
+        approach to solving complex engineering challenges.
+    </p>
+
+    <h3>Contact</h3>
+    <p>📞 +91 9345707585</p>
+    <p>📧 sandeepvj2005@gmail.com</p>
+    <p>📍 Salem, Tamil Nadu</p>
+</section>
+
+<section id="education">
+    <h3>Education</h3>
+    <p><strong>B.E - ECE</strong> (2023–2027)</p>
+    <p>Government College of Engineering, Tirunelveli</p>
+    <p>CGPA: 7.04</p>
+
+    <br>
+
+    <p><strong>Schooling</strong> (2016–2023)</p>
+    <p>Government Boys Hr. Sec School, Salem</p>
+</section>
+
+<section id="skills">
+    <h3>Skills</h3>
+    <ul>
+        <li>C Programming</li>
+        <li>Python</li>
+    </ul>
+
+    <h3>Development Tools</h3>
+    <ul>
+        <li>Keil µVision</li>
+        <li>Arduino IDE</li>
+        <li>Proteus</li>
+        <li>KiCad</li>
+    </ul>
+
+    <h3>Area of Interest</h3>
+    <ul>
+        <li>Digital Logic Design</li>
+        <li>Logic Minimization (K-Map)</li>
+    </ul>
+</section>
+
+<section id="projects">
+    <h3>Mini Projects</h3>
+    <ul>
+        <li>IoT-Based Supply Chain Management System</li>
+        <li>Vehicle Pattern Recognition</li>
+    </ul>
+</section>
+
+<section id="links" class="links">
+    <h3>Profile Links</h3>
+    <a href="http://www.linkedin.com/in/sandeeps77" target="_blank">LinkedIn</a>
+    <a href="https://sandeepsandeep-dot.github.io/portfolio-resume/" target="_blank">Portfolio</a>
+</section>
+
+<footer>
+    © 2026 Sandeep S
+</footer>
+
+<script>
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const totalFrames = 240;
+const images = [];
+let loaded = 0;
+
+for (let i = 1; i <= totalFrames; i++) {
+    let img = new Image();
+    let num = String(i).padStart(3, '0');
+    img.src = `frames/ezgif-frame-${num}.jpg`;
+    img.onload = () => {
+        loaded++;
+        if (loaded === totalFrames) render();
+    };
+    images.push(img);
+}
+
+function render() {
+    window.addEventListener("scroll", () => {
+        const scrollTop = window.scrollY;
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        const frameIndex = Math.floor((scrollTop / maxScroll) * (totalFrames - 1));
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(images[frameIndex], 0, 0, canvas.width, canvas.height);
+    });
+}
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
