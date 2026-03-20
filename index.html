@@ -14,8 +14,8 @@
     }
 
     body {
-        background: linear-gradient(135deg, #e3edf7, #d6e4f0);
-        color: #1a2a3a;
+        background: rgba(255, 255, 255, 0.9); /* light transparent feel */
+        color: #1e293b;
         overflow-x: hidden;
     }
 
@@ -27,46 +27,39 @@
         width: 100%;
         height: 100%;
         z-index: -1;
-        opacity: 0.08; /* lighter watermark */
-        filter: grayscale(30%);
+        opacity: 0.05; /* subtle watermark */
     }
 
     .container {
-        width: 85%;
+        width: 80%;
         margin: auto;
-        padding: 50px 0;
+        padding: 60px 0;
     }
 
     h1 {
-        font-size: 40px;
+        font-size: 42px;
         margin-bottom: 10px;
     }
 
     h2 {
-        margin-top: 40px;
+        margin-top: 50px;
         margin-bottom: 10px;
-        color: #2b6cb0;
+        color: #2563eb;
     }
 
     p {
-        line-height: 1.6;
+        line-height: 1.8;
+        margin-bottom: 6px;
     }
 
-    /* Glass effect cards */
-    .card {
-        background: rgba(255, 255, 255, 0.35);
-        padding: 20px;
-        margin-top: 15px;
-        border-radius: 12px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.4);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-        transition: 0.3s;
+    .header {
+        text-align: center;
+        margin-bottom: 50px;
     }
 
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    .tag {
+        color: #64748b;
+        margin-top: 5px;
     }
 
     .grid {
@@ -76,20 +69,11 @@
     }
 
     a {
-        color: #2b6cb0;
+        color: #2563eb;
         text-decoration: none;
         font-weight: 500;
     }
 
-    .header {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-
-    .tag {
-        color: #4a6fa5;
-        margin-top: 5px;
-    }
 </style>
 </head>
 
@@ -107,61 +91,48 @@
     </div>
 
     <h2>Summary</h2>
-    <div class="card">
-        <p>
-            Dedicated and innovative Embedded Systems enthusiast with a solid grasp of firmware
-            development, hardware integration, and real-time applications. Known for adaptability,
-            precision, and a proactive approach to solving complex engineering challenges.
-        </p>
-    </div>
+    <p>
+        Dedicated and innovative Embedded Systems enthusiast with a solid grasp of firmware
+        development, hardware integration, and real-time applications. Known for adaptability,
+        precision, and a proactive approach to solving complex engineering challenges.
+    </p>
 
     <h2>Education</h2>
     <div class="grid">
-        <div class="card">
-            <h3>B.E - Electronics and Communication Engineering</h3>
+        <div>
+            <p><strong>B.E - Electronics and Communication Engineering</strong></p>
             <p>Government College of Engineering, Tirunelveli</p>
-            <p>2023 - 2027</p>
-            <p>CGPA: 7.04</p>
+            <p>2023 - 2027 | CGPA: 7.04</p>
         </div>
 
-        <div class="card">
-            <h3>Higher Secondary</h3>
+        <div>
+            <p><strong>Higher Secondary</strong></p>
             <p>Government Boys Hr. Sec. School, Salem</p>
             <p>2016 - 2023</p>
         </div>
     </div>
 
     <h2>Skills</h2>
-    <div class="card">
-        <p>C Programming</p>
-        <p>Python</p>
-    </div>
+    <p>C Programming</p>
+    <p>Python</p>
 
     <h2>Development Tools</h2>
-    <div class="card">
-        <p>Keil µVision</p>
-        <p>Arduino IDE</p>
-        <p>Proteus</p>
-        <p>KiCad</p>
-    </div>
+    <p>Keil µVision</p>
+    <p>Arduino IDE</p>
+    <p>Proteus</p>
+    <p>KiCad</p>
 
     <h2>Area of Interest</h2>
-    <div class="card">
-        <p>Digital Logic Design (Combinational & Sequential Circuits)</p>
-        <p>Logic Minimization (K-Map)</p>
-    </div>
+    <p>Digital Logic Design (Combinational & Sequential Circuits)</p>
+    <p>Logic Minimization (K-Map)</p>
 
     <h2>Projects</h2>
-    <div class="card">
-        <p>IoT-Based Supply Chain Management System</p>
-        <p>Vehicle Pattern Recognition</p>
-    </div>
+    <p>IoT-Based Supply Chain Management System</p>
+    <p>Vehicle Pattern Recognition</p>
 
     <h2>Profile Links</h2>
-    <div class="card">
-        <p><a href="http://www.linkedin.com/in/sandeeps77" target="_blank">LinkedIn</a></p>
-        <p><a href="https://sandeepsandeep-dot.github.io/portfolio-resume/" target="_blank">Portfolio</a></p>
-    </div>
+    <p><a href="http://www.linkedin.com/in/sandeeps77" target="_blank">LinkedIn</a></p>
+    <p><a href="https://sandeepsandeep-dot.github.io/portfolio-resume/" target="_blank">Portfolio</a></p>
 
 </div>
 
@@ -169,8 +140,12 @@
     const canvas = document.getElementById("bgCanvas");
     const ctx = canvas.getContext("2d");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
 
     const frameCount = 240;
     const images = [];
@@ -200,16 +175,16 @@
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
         const scrollFraction = scrollTop / maxScroll;
 
-        const frameIndex = Math.min(239, Math.floor(scrollFraction * 240));
+        const frameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
         render(frameIndex);
     });
 
-    render(0);
-
     window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        resizeCanvas();
+        render(0);
     });
+
+    render(0);
 </script>
 
 </body>
