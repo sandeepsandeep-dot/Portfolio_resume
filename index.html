@@ -5,93 +5,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sandeep S | Portfolio</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', sans-serif;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 
-    body {
-        background: #0b1120; /* slightly darker */
-        color: #ffffff;
-        overflow-x: hidden;
-    }
+body{
+    background:#141824;
+    color:#e2e8f0;
+    overflow-x:hidden;
+}
 
-    /* Background animation */
-    #bgCanvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -2;
-        opacity: 0.10;
-    }
+/* ===== BACKGROUND ANIMATION ===== */
 
-    /* Dark overlay */
-    body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(20, 24, 36, 0.75); /* stronger overlay */
-        z-index: -1;
-    }
+#animation-container{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    z-index:-1;
+    overflow:hidden;
+    pointer-events:none;
+}
 
-    .container {
-        width: 80%;
-        margin: auto;
-        padding: 60px 0;
-    }
+#animation-frame{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0.12;
+}
 
-    h1 {
-        font-size: 42px;
-        margin-bottom: 10px;
-    }
+#animation-container::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(20,24,36,0.75); /* light-dark overlay */
+}
 
-    h2 {
-        margin-top: 50px;
-        margin-bottom: 10px;
-        color: #60a5fa;
-    }
+/* ===== CONTENT ===== */
 
-    p {
-        line-height: 1.8;
-        margin-bottom: 6px;
-    }
+.container{
+    width:80%;
+    margin:auto;
+    padding:60px 0;
+}
 
-    .header {
-        text-align: center;
-        margin-bottom: 50px;
-    }
+.header{
+    text-align:center;
+    margin-bottom:50px;
+}
 
-    .tag {
-        color: #94a3b8;
-        margin-top: 5px;
-    }
+h1{
+    font-size:42px;
+}
 
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-    }
+h2{
+    margin-top:50px;
+    margin-bottom:10px;
+    color:#60a5fa;
+}
 
-    a {
-        color: #60a5fa;
-        text-decoration: none;
-        font-weight: 500;
-    }
+p{
+    line-height:1.8;
+    margin-bottom:6px;
+}
+
+.tag{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+a{
+    color:#60a5fa;
+    text-decoration:none;
+}
 
 </style>
 </head>
 
 <body>
 
-<canvas id="bgCanvas"></canvas>
+<!-- Background Animation -->
+<div id="animation-container">
+    <img id="animation-frame" src="">
+</div>
 
 <div class="container">
 
@@ -144,58 +153,46 @@
 
     <h2>Profile Links</h2>
     <p><a href="http://www.linkedin.com/in/sandeeps77" target="_blank">LinkedIn</a></p>
-    
+    <p><a href="https://sandeepsandeep-dot.github.io/portfolio-resume/" target="_blank">Portfolio</a></p>
+
 </div>
 
 <script>
-    const canvas = document.getElementById("bgCanvas");
-    const ctx = canvas.getContext("2d");
+const frameCount = 240;
+const frameImages = [];
+const imgElement = document.getElementById("animation-frame");
 
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+/* PRELOAD */
+for(let i = 1; i <= frameCount; i++){
+    const img = new Image();
+    const num = String(i).padStart(3,'0');
+    img.src = `frames/ezgif-frame-${num}.jpg`;
+    frameImages.push(img);
+}
+
+imgElement.src = frameImages[0].src;
+
+let currentFrame = 0;
+
+function updateFrame(){
+    const scrollTop = window.scrollY;
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const scrollProgress = scrollTop / maxScroll;
+
+    const targetFrame = Math.min(
+        frameCount - 1,
+        Math.floor(scrollProgress * (frameCount - 1))
+    );
+
+    if(targetFrame !== currentFrame){
+        currentFrame = targetFrame;
+        imgElement.src = frameImages[currentFrame].src;
     }
 
-    resizeCanvas();
+    requestAnimationFrame(updateFrame);
+}
 
-    const frameCount = 240;
-    const images = [];
-
-    for (let i = 1; i <= frameCount; i++) {
-        const img = new Image();
-        const num = String(i).padStart(3, '0');
-        img.src = `frames/ezgif-frame-${num}.jpg`;
-        images.push(img);
-    }
-
-    function render(index) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const img = images[index];
-        if (!img) return;
-
-        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-        const x = (canvas.width / 2) - (img.width / 2) * scale;
-        const y = (canvas.height / 2) - (img.height / 2) * scale;
-
-        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-    }
-
-    window.addEventListener("scroll", () => {
-        const scrollTop = document.documentElement.scrollTop;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollFraction = scrollTop / maxScroll;
-
-        const frameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
-        render(frameIndex);
-    });
-
-    window.addEventListener("resize", () => {
-        resizeCanvas();
-        render(0);
-    });
-
-    render(0);
+requestAnimationFrame(updateFrame);
 </script>
 
 </body>
