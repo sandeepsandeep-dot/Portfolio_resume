@@ -14,7 +14,7 @@
     }
 
     body {
-        background: #1a1f2b; /* light dark */
+        background: #141824; /* slightly darker */
         color: #e2e8f0;
         overflow-x: hidden;
     }
@@ -27,10 +27,10 @@
         width: 100%;
         height: 100%;
         z-index: -2;
-        opacity: 0.12;
+        opacity: 0.10;
     }
 
-    /* Soft overlay */
+    /* Dark overlay */
     body::before {
         content: "";
         position: fixed;
@@ -38,7 +38,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(26, 31, 43, 0.65); /* softer overlay */
+        background: rgba(20, 24, 36, 0.75); /* stronger overlay */
         z-index: -1;
     }
 
